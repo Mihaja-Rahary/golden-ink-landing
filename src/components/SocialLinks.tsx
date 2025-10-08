@@ -6,25 +6,37 @@ const socialLinks = [
     name: "Instagram",
     icon: Instagram,
     url: "#",
-    description: "Suivez-moi pour plus de contenu",
+    description: "@tonpseudo",
+  },
+  {
+    name: "TikTok",
+    icon: Send,
+    url: "#",
+    description: "@tonpseudo",
   },
   {
     name: "Telegram",
     icon: Send,
     url: "#",
-    description: "Rejoignez la communauté",
+    description: "Canal Lecture & Croissance",
   },
   {
     name: "Amazon",
     icon: ShoppingBag,
     url: "#",
-    description: "Mes recommandations",
+    description: "Mes livres préférés",
   },
   {
     name: "Fnac",
     icon: BookOpen,
     url: "#",
-    description: "Découvrez mes livres",
+    description: "Ma sélection Fnac",
+  },
+  {
+    name: "Audible",
+    icon: BookOpen,
+    url: "#",
+    description: "Essaye Audible gratuitement",
   },
 ];
 
@@ -36,15 +48,15 @@ const SocialLinks = () => {
           {/* Section Title */}
           <div className="space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold">
-              <span className="text-gradient-gold">Restons</span> connectés
+              <span className="text-gradient-gold">Découvre mes plateformes</span> 📱
             </h2>
             <p className="text-xl text-muted-foreground">
-              Rejoignez-moi sur mes différentes plateformes
+              Rejoins-moi pour du contenu quotidien et mes recommandations
             </p>
           </div>
 
           {/* Social Links Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {socialLinks.map((link, index) => (
               <a
                 key={link.name}

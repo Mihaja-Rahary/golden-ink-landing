@@ -1,16 +1,20 @@
 import Hero from "@/components/Hero";
-import About from "@/components/About";
+import EbookSection from "@/components/EbookSection";
+import BookCarousels from "@/components/BookCarousels";
+import DailyBook from "@/components/DailyBook";
+import Newsletter from "@/components/Newsletter";
 import SocialLinks from "@/components/SocialLinks";
-import AffiliateSection from "@/components/AffiliateSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Hero />
-      <About />
+      <EbookSection />
+      <BookCarousels />
+      <DailyBook />
+      <Newsletter />
       <SocialLinks />
-      <AffiliateSection />
       <Footer />
     </div>
   );

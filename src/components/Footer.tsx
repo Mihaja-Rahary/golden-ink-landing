@@ -10,10 +10,10 @@ const Footer = () => {
             {/* Logo/Brand */}
             <div className="space-y-2">
               <h3 className="text-2xl font-bold text-gradient-gold">
-                Mon Ebook
+                1 Livre par Jour
               </h3>
               <p className="text-muted-foreground">
-                Transformez votre vision en réalité
+                Chaque livre est une porte vers une nouvelle idée 📖
               </p>
             </div>
 
@@ -43,7 +43,7 @@ const Footer = () => {
 
             {/* Copyright */}
             <div className="pt-6 text-sm text-muted-foreground flex items-center justify-center gap-2">
-              <span>© {new Date().getFullYear()} Mon Ebook. Créé avec</span>
+              <span>© {new Date().getFullYear()} 1 Livre par Jour. Créé avec passion</span>
               <Heart className="w-4 h-4 text-primary fill-current" />
             </div>
           </div>

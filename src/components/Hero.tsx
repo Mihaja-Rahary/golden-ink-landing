@@ -25,24 +25,25 @@ const Hero = () => {
 
           {/* Title */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-            <span className="text-gradient-gold">Transformez</span>
+            <span className="text-gradient-gold">Un livre par jour</span>
             <br />
-            <span className="text-foreground">Votre Vision</span>
+            <span className="text-foreground">pour t'inspirer 📖</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Découvrez les secrets pour réussir dans votre parcours.
-            Un guide complet et inspirant.
+            Chaque jour, découvre un résumé, une idée ou une anecdote tirée d'un livre marquant.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <Button variant="hero" size="lg" className="min-w-[200px]">
-              Télécharger l'ebook
-            </Button>
-            <Button variant="social" size="lg" className="min-w-[200px]">
-              En savoir plus
+          {/* Intro text */}
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Parce qu'un bon livre peut changer ta vision du monde. Découvre mes sélections quotidiennes et explore l'univers de la lecture autrement.
+          </p>
+
+          {/* CTA Button */}
+          <div className="flex justify-center pt-8">
+            <Button variant="hero" size="lg" className="min-w-[250px]">
+              Télécharger mon ebook gratuit
             </Button>
           </div>
 
