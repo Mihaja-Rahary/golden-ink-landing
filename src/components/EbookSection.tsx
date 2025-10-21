@@ -1,9 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { BookOpen, Download } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const EbookSection = () => {
   const [email, setEmail] = useState("");
+  const [settings, setSettings] = useState({
+    title: "Ton ebook offert 📚",
+    description: "Reçois gratuitement mon ebook exclusif contenant les résumés de tous les livres que je présente sur mes réseaux.",
+  });
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("setting_key, setting_value")
+        .in("setting_key", ["ebook_title", "ebook_description"]);
+
+      if (data) {
+        const settingsMap: any = {};
+        data.forEach((item) => {
+          const key = item.setting_key.replace("ebook_", "");
+          settingsMap[key] = item.setting_value;
+        });
+        setSettings((prev) => ({ ...prev, ...settingsMap }));
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,13 +53,12 @@ const EbookSection = () => {
 
           {/* Title */}
           <h2 className="text-4xl md:text-5xl font-bold">
-            <span className="text-gradient-gold">Ton ebook offert</span> 📚
+            <span className="text-gradient-gold">{settings.title}</span>
           </h2>
 
           {/* Description */}
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Reçois gratuitement mon ebook exclusif contenant les résumés de tous les livres que je présente sur mes réseaux. 
-            Un guide simple pour savoir lesquels acheter en priorité.
+            {settings.description}
           </p>
 
           {/* Email Form */}

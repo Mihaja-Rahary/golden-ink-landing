@@ -1,46 +1,56 @@
-import { Button } from "@/components/ui/button";
-import { Instagram, Send, ShoppingBag, BookOpen } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Instagram, Send, ShoppingBag, BookOpen, LucideIcon } from "lucide-react";
 
-const socialLinks = [
-  {
-    name: "Instagram",
-    icon: Instagram,
-    url: "#",
-    description: "@tonpseudo",
-  },
-  {
-    name: "TikTok",
-    icon: Send,
-    url: "#",
-    description: "@tonpseudo",
-  },
-  {
-    name: "Telegram",
-    icon: Send,
-    url: "#",
-    description: "Canal Lecture & Croissance",
-  },
-  {
-    name: "Amazon",
-    icon: ShoppingBag,
-    url: "#",
-    description: "Mes livres préférés",
-  },
-  {
-    name: "Fnac",
-    icon: BookOpen,
-    url: "#",
-    description: "Ma sélection Fnac",
-  },
-  {
-    name: "Audible",
-    icon: BookOpen,
-    url: "#",
-    description: "Essaye Audible gratuitement",
-  },
-];
+const iconMap: Record<string, LucideIcon> = {
+  Instagram,
+  Send,
+  ShoppingBag,
+  BookOpen,
+};
+
+interface SocialLink {
+  id: string;
+  name: string;
+  icon: string;
+  url: string;
+  description: string;
+}
 
 const SocialLinks = () => {
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const [settings, setSettings] = useState({
+    title: "Découvre mes plateformes 📱",
+    subtitle: "Rejoins-moi pour du contenu quotidien et mes recommandations",
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const { data: links } = await supabase
+      .from("social_links")
+      .select("*")
+      .eq("is_active", true)
+      .order("display_order");
+
+    if (links) setSocialLinks(links);
+
+    const { data: settingsData } = await supabase
+      .from("site_settings")
+      .select("setting_key, setting_value")
+      .in("setting_key", ["social_section_title", "social_section_subtitle"]);
+
+    if (settingsData) {
+      const settingsMap: any = {};
+      settingsData.forEach((item) => {
+        const key = item.setting_key.replace("social_section_", "");
+        settingsMap[key] = item.setting_value;
+      });
+      setSettings((prev) => ({ ...prev, ...settingsMap }));
+    }
+  };
   return (
     <section className="py-20 px-4 relative">
       <div className="container mx-auto max-w-5xl">
@@ -48,10 +58,10 @@ const SocialLinks = () => {
           {/* Section Title */}
           <div className="space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold">
-              <span className="text-gradient-gold">Découvre mes plateformes</span> 📱
+              <span className="text-gradient-gold">{settings.title}</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              Rejoins-moi pour du contenu quotidien et mes recommandations
+              {settings.subtitle}
             </p>
           </div>
 
@@ -69,7 +79,12 @@ const SocialLinks = () => {
                 <div className="p-6 rounded-2xl bg-card border border-border hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg">
                   <div className="flex items-center gap-4">
                     <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                      <link.icon className="w-6 h-6 text-primary" />
+                      {iconMap[link.icon] && 
+                        (() => {
+                          const Icon = iconMap[link.icon];
+                          return <Icon className="w-6 h-6 text-primary" />;
+                        })()
+                      }
                     </div>
                     <div className="text-left flex-1">
                       <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">

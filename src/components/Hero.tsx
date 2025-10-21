@@ -1,8 +1,35 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import ebookCover from "@/assets/ebook-cover.jpg";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Hero = () => {
+  const [settings, setSettings] = useState({
+    title: "Un livre par jour pour t'inspirer 📖",
+    subtitle: "Chaque jour, découvre un résumé, une idée ou une anecdote tirée d'un livre marquant.",
+    description: "Parce qu'un bon livre peut changer ta vision du monde.",
+    cta: "Télécharger mon ebook gratuit",
+  });
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("setting_key, setting_value")
+        .in("setting_key", ["hero_title", "hero_subtitle", "hero_description", "hero_cta"]);
+
+      if (data) {
+        const settingsMap: any = {};
+        data.forEach((item) => {
+          const key = item.setting_key.replace("hero_", "");
+          settingsMap[key] = item.setting_value;
+        });
+        setSettings((prev) => ({ ...prev, ...settingsMap }));
+      }
+    };
+    fetchSettings();
+  }, []);
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Gradient Glow Background */}
@@ -25,25 +52,23 @@ const Hero = () => {
 
           {/* Title */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-            <span className="text-gradient-gold">Un livre par jour</span>
-            <br />
-            <span className="text-foreground">pour t'inspirer 📖</span>
+            <span className="text-gradient-gold">{settings.title}</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Chaque jour, découvre un résumé, une idée ou une anecdote tirée d'un livre marquant.
+            {settings.subtitle}
           </p>
 
           {/* Intro text */}
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Parce qu'un bon livre peut changer ta vision du monde. Découvre mes sélections quotidiennes et explore l'univers de la lecture autrement.
+            {settings.description}
           </p>
 
           {/* CTA Button */}
           <div className="flex justify-center pt-8">
             <Button variant="hero" size="lg" className="min-w-[250px]">
-              Télécharger mon ebook gratuit
+              {settings.cta}
             </Button>
           </div>
 
